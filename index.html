@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NZZ News Stories - Ultra HD</title>
+    <title>NZZ News Stories - Kristallklar</title>
     <style>
         :root {
             --bg-color: #030914;
@@ -186,7 +186,7 @@
             background: linear-gradient(to bottom, transparent, var(--bg-color));
         }
 
-        /* Text-Bereich mit 10% Abstand unten */
+        /* Text-Bereich */
         .content-container {
             flex: 1;
             padding: 4% 6% 0 6%; 
@@ -355,12 +355,12 @@
                     }
                 }
 
-                // RADIKALE ULTRA-HD UPGRADE LOGIK
-                if (imageUrl && imageUrl.includes('img.nzz.ch')) {
-                    // Wir schneiden alle alten, verkleinernden Parameter (?width=560 etc.) komplett ab
+                // KORRIGIERTE HIGH-RES LOGIK FÜR DAS NZZ IMAGE-CDN
+                if (imageUrl && imageUrl.includes('nzz.ch')) {
+                    // Wir werfen alle standardmäßig drosselnden Parameter ab
                     const baseUrl = imageUrl.split('?')[0];
-                    // Wir erzwingen ein absolut gestochen scharfes 16:9 Format mit hoher Qualität
-                    imageUrl = `${baseUrl}?width=1600&height=900&quality=90`;
+                    // Wir fordern eine HD-Breite an und nutzen 'fit=bounds&auto=webp' für die Skalierung
+                    imageUrl = `${baseUrl}?width=1440&fit=bounds&quality=85&auto=webp`;
                 }
 
                 if (!imageUrl) {
