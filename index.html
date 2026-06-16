@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NZZ News Stories - Dynamic Typography</title>
+    <title>NZZ News Stories - Perfekte Proportionen</title>
     <style>
         :root {
-            --bg-color: #030914;
+            --bg-color: #050b14; /* Originaler, tiefer NZZ-Blauton aus dem Screenshot */
             --text-color: #ffffff;
-            --text-muted: #a0aab8;
-            --accent-blue: #1d9bf0;
+            --text-muted: #a2aebf;
+            --accent-blue: #2e96ff;
             --story-duration: 7000ms;
         }
 
@@ -32,7 +32,7 @@
             overflow: hidden;
         }
 
-        /* Perfektes 9:16 Verhältnis + Container-Definition für dynamische Schrift */
+        /* 9:16 Box mit Container-Query-Basis */
         .story-wrapper {
             position: relative;
             width: 100vw;
@@ -45,12 +45,10 @@
             flex-direction: column;
             overflow: hidden;
             box-shadow: 0 0 40px rgba(0,0,0,0.85);
-            
-            /* Aktiviert Container-Units (cqw) für alle Elemente im Inneren */
             container-type: inline-size;
         }
 
-        /* Fortschrittsbalken oben */
+        /* Fortschrittsbalken */
         .progress-container {
             position: absolute;
             top: 2vh;
@@ -65,7 +63,7 @@
         .progress-bar {
             height: 3px;
             flex: 1;
-            background-color: rgba(255, 255, 255, 0.25);
+            background-color: rgba(255, 255, 255, 0.2);
             border-radius: 2px;
             overflow: hidden;
             position: relative;
@@ -77,7 +75,7 @@
             background-color: #fff;
         }
 
-        /* Header mit Kategorie & Zeit */
+        /* Header (Kategorie & Zeit) */
         .story-header {
             position: absolute;
             top: 4vh;
@@ -88,16 +86,15 @@
             align-items: center;
             padding: 0 5%;
             z-index: 10;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.9);
         }
 
         .meta-info {
             display: flex;
             align-items: center;
-            /* Dynamischer Header-Text */
-            font-size: clamp(0.95rem, 4cqw, 1.2rem);
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            font-size: clamp(1rem, 4.2cqw, 1.4rem);
+            font-weight: 700;
+            letter-spacing: 0.3px;
         }
 
         .category {
@@ -107,19 +104,20 @@
         .time-ago {
             color: var(--text-muted);
             margin-left: 8px;
+            font-weight: 400;
         }
 
         .close-btn {
             background: none;
             border: none;
             color: #fff;
-            font-size: clamp(1.5rem, 6cqw, 2rem);
+            font-size: clamp(1.6rem, 6.5cqw, 2.2rem);
             cursor: pointer;
             opacity: 0.7;
             line-height: 1;
         }
 
-        /* Unsichtbare Klickbereiche für Navigation */
+        /* Touch-Zonen */
         .nav-zones {
             position: absolute;
             top: 0;
@@ -130,17 +128,9 @@
             display: flex;
         }
 
-        .zone-left {
-            width: 33%;
-            height: 100%;
-        }
+        .zone-left { width: 33%; height: 100%; }
+        .zone-right { width: 67%; height: 100%; }
 
-        .zone-right {
-            width: 67%;
-            height: 100%;
-        }
-
-        /* Slides */
         .slides-container {
             width: 100%;
             height: 100%;
@@ -165,10 +155,10 @@
             visibility: visible;
         }
 
-        /* Bild-Bereich */
+        /* Bild-Bereich (ca. 52% Höhe für die perfekte Aufteilung) */
         .image-container {
             width: 100%;
-            height: 58%;
+            height: 52%;
             position: relative;
             background-color: #000;
         }
@@ -179,32 +169,30 @@
             object-fit: cover;
         }
 
-        /* Dunkler Verlauf nach unten */
+        /* Sanfter, tiefer Verlauf in den Textbereich */
         .image-container::after {
             content: '';
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            height: 120px;
+            height: 150px;
             background: linear-gradient(to bottom, transparent, var(--bg-color));
         }
 
-        /* Text-Bereich */
+        /* Text-Bereich mit optimiertem Padding */
         .content-container {
             flex: 1;
-            padding: 4% 6% 0 6%; 
+            padding: 5% 6% 8% 6%; 
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
             background-color: var(--bg-color);
-            margin-bottom: 10vh; 
         }
 
         .ticker-badge {
             align-self: flex-start;
-            /* Dynamischer Live-Badge */
-            font-size: clamp(0.7rem, 3cqw, 0.85rem);
+            font-size: clamp(0.8rem, 3.5cqw, 1.1rem);
             text-transform: uppercase;
             font-weight: 800;
             letter-spacing: 1.5px;
@@ -212,34 +200,33 @@
             margin-bottom: 3%;
         }
 
-        /* DYNAMISCHE ÜBERSCHRIFT */
+        /* GROSSE, WUCHTIGE ÜBERSCHRIFT (Wie im Screenshot) */
         .story-title {
             font-family: Georgia, serif;
-            /* Skaliert flüssig zwischen 1.5rem auf kleinen Handys und 2.3rem auf großen Displays */
-            font-size: clamp(1.5rem, 7.5cqw, 2.3rem);
-            line-height: 1.3;
-            font-weight: 600;
-            margin-bottom: 4%;
+            font-size: clamp(1.8rem, 8.2cqw, 3.2rem); 
+            line-height: 1.25;
+            font-weight: 700;
+            margin-bottom: 5%;
             color: var(--text-color);
+            letter-spacing: -0.2px;
         }
 
-        /* DYNAMISCHER UNTERTITEL / BESCHREIBUNG */
+        /* GROSSER, LESBARER UNTERTITEL */
         .story-description {
-            /* Skaliert flüssig zwischen 1rem und 1.3rem */
-            font-size: clamp(1rem, 4.5cqw, 1.3rem);
-            line-height: 1.6;
+            font-size: clamp(1.1rem, 4.6cqw, 1.7rem); 
+            line-height: 1.55;
             color: var(--text-muted);
+            font-weight: 400;
         }
 
         .story-author {
-            /* Dynamische Autorenzeile */
-            font-size: clamp(0.8rem, 3.5cqw, 0.95rem);
+            font-size: clamp(0.9rem, 3.8cqw, 1.2rem);
             color: var(--text-muted);
             margin-top: auto;
             padding-top: 15px;
+            opacity: 0.8;
         }
 
-        /* Lade-Anzeige */
         .loader {
             position: absolute;
             top: 50%;
@@ -411,108 +398,3 @@
             stories.forEach((story, idx) => {
                 const bar = document.createElement('div');
                 bar.className = 'progress-bar';
-                bar.innerHTML = `<div class="progress-fill" id="fill-${idx}"></div>`;
-                progressContainer.appendChild(bar);
-
-                const slide = document.createElement('div');
-                slide.className = `slide ${idx === 0 ? 'active' : ''}`;
-                slide.innerHTML = `
-                    <div class="image-container">
-                        <img class="story-img" src="${story.imageUrl}" alt="News Image">
-                    </div>
-                    <div class="content-container">
-                        ${story.title.toLowerCase().includes('live') || story.title.toLowerCase().includes('ticker') ? '<div class="ticker-badge">LIVE-TICKER</div>' : ''}
-                        <h1 class="story-title">${story.title}</h1>
-                        <p class="story-description">${story.description}</p>
-                        ${story.creator ? `<p class="story-author">${story.creator}</p>` : ''}
-                    </div>
-                `;
-                slidesContainer.appendChild(slide);
-            });
-
-            showStory(0);
-        }
-
-        function showStory(index) {
-            if (index < 0 || index >= stories.length) return;
-            
-            cancelAnimationFrame(animationFrameId);
-
-            const slides = document.querySelectorAll('.slide');
-            slides.forEach((slide, idx) => {
-                slide.classList.toggle('active', idx === index);
-            });
-
-            currentIndex = index;
-            const story = stories[currentIndex];
-
-            document.getElementById('headerCategory').innerText = story.category;
-            document.getElementById('headerTime').innerText = formatRelativeTime(story.pubDate);
-            
-            const bars = document.querySelectorAll('.progress-bar');
-            bars.forEach((bar, idx) => {
-                const fill = bar.querySelector('.progress-fill');
-                if (idx < index) {
-                    fill.style.width = '100%';
-                } else if (idx > index) {
-                    fill.style.width = '0%';
-                }
-            });
-
-            startTime = performance.now();
-            animateProgress();
-        }
-
-        function animateProgress() {
-            const activeFill = document.getElementById(`fill-${currentIndex}`);
-            if (!activeFill) return;
-
-            const elapsed = performance.now() - startTime;
-            const progress = Math.min((elapsed / STORY_DURATION) * 100, 100);
-            activeFill.style.width = `${progress}%`;
-
-            if (progress < 100) {
-                animationFrameId = requestAnimationFrame(animateProgress);
-            } else {
-                nextStory();
-            }
-        }
-
-        function nextStory() {
-            if (currentIndex < stories.length - 1) {
-                showStory(currentIndex + 1);
-            } else {
-                showStory(0);
-            }
-        }
-
-        function prevStory() {
-            if (currentIndex > 0) {
-                showStory(currentIndex - 1);
-            } else {
-                showStory(0);
-            }
-        }
-
-        function formatRelativeTime(dateStr) {
-            try {
-                const parsedDate = new Date(dateStr);
-                const diffMs = new Date() - parsedDate;
-                const diffMins = Math.floor(diffMs / 60000);
-                const diffHours = Math.floor(diffMins / 60);
-
-                if (diffMins < 60) return `${Math.max(1, diffMins)}m`;
-                if (diffHours < 24) return `${diffHours}h`;
-                return parsedDate.toLocaleDateString('de-CH', { day: 'numeric', month: 'short' });
-            } catch (e) {
-                return 'Jetzt';
-            }
-        }
-
-        document.getElementById('zoneLeft').addEventListener('click', prevStory);
-        document.getElementById('zoneRight').addEventListener('click', nextStory);
-
-        fetchFeed();
-    </script>
-</body>
-</html>
